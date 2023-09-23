@@ -1,0 +1,81 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VendingMachine" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="smsurl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://api.msg91.com/api/sendhttp.php?sender=BVCVM&amp;route=4&amp;authkey=225117AE3vsplg1uG60e98873P1&amp;country=91</Value>
+    </Setting>
+    <Setting Name="machine_id" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="helpline" Type="System.String" Scope="User">
+      <Value Profile="(Default)">9894315987</Value>
+    </Setting>
+    <Setting Name="max_quantity" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="vend_sensor" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IsAdminId" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BillValidatorApp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\BetaAutomation\BillValidator\BillValidator.exe</Value>
+    </Setting>
+    <Setting Name="upi_url" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://127.0.0.1:8888/</Value>
+    </Setting>
+    <Setting Name="upi_email" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mohandas@betaautomation.com</Value>
+    </Setting>
+    <Setting Name="IsNoteDispenser" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="IsCoupon" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IsCoinDispenser" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="face_ip" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.1.12</Value>
+    </Setting>
+    <Setting Name="face_port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9922</Value>
+    </Setting>
+    <Setting Name="plc_check_before_order" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ServerURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:5272/</Value>
+    </Setting>
+    <Setting Name="upi_mobileno" Type="System.String" Scope="User">
+      <Value Profile="(Default)">8870703719</Value>
+    </Setting>
+    <Setting Name="paytm_clientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sathish</Value>
+    </Setting>
+    <Setting Name="paytm_mid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CHATTE19664246519794</Value>
+    </Setting>
+    <Setting Name="paytm_m_key" Type="System.String" Scope="User">
+      <Value Profile="(Default)">K7sebdIQdHK5%Ckk</Value>
+    </Setting>
+    <Setting Name="paytm_version" Type="System.String" Scope="User">
+      <Value Profile="(Default)">v1</Value>
+    </Setting>
+    <Setting Name="FromMailAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">varsjacob@gmail.com</Value>
+    </Setting>
+    <Setting Name="ToMailAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sathishkumarr2168@gmail.com</Value>
+    </Setting>
+    <Setting Name="SMTPClientAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">smtp.gmail.com</Value>
+    </Setting>
+    <Setting Name="SMTPAppPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">goqvzhsvdxesivyr</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

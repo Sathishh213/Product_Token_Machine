@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="VendingMachine.UCmain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VendingMachine"
+             mc:Ignorable="d" Name="MyContainer" >
+        <Button Name="Mybtn" Click="Mybtn_Click"  Height="110" >
+        <Button.Template>
+            <ControlTemplate>
+                <Grid>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Border CornerRadius="5" BorderBrush="Transparent" Opacity="{Binding opacity, ElementName=MyContainer}" BorderThickness="0">
+                        <Border.Background>
+                            <ImageBrush  Stretch="Fill" ImageSource="{Binding ImgPath, ElementName=MyContainer}"   />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel Grid.Row="0" x:Name="BlockContainer"  VerticalAlignment="Bottom"  >
+                        
+                    </StackPanel>
+                    <TextBlock Grid.Row="1" Name="txtDisp"  Background="White" Foreground="Black" FontWeight="Normal" FontSize="15" Text="{Binding DisplayValue, ElementName=MyContainer}" TextAlignment="Center" VerticalAlignment="Center" Margin="0,2"    />
+                </Grid>
+            </ControlTemplate>
+        </Button.Template>
+    </Button>
+</UserControl>

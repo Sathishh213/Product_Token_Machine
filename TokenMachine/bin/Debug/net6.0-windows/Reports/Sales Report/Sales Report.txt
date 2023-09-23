@@ -1,0 +1,6 @@
+﻿
+
+
+select order_id as 'Order ID',product_lineitems as 'Order Details',total_amount as 'Order Amount',
+			total_quantity as 'Order Quantity',order_datetime as 'Order Date',payment_method as 'Payment Method', 
+			transaction_id as 'Transaction ID',machine_id as 'Machine ID' from sales_order order by order_datetime;

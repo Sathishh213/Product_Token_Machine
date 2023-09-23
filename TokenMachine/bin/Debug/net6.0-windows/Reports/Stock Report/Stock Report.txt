@@ -1,0 +1,8 @@
+﻿
+
+SELECT product_id as 'Product ID', product_name as 'Product Name', sum(stock) as 'Available In Stock',OutOfStock as 'Out Of Stock' from (
+			Select product_id, product_name ,price, 
+			case when soldout > 0 then 0 else stock end as stock,
+			case when soldout > 0 then 'Yes' else 'No' end as OutOfStock
+			from mst_product p
+			) as M group by M.product_id;

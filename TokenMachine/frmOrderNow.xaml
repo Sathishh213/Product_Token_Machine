@@ -1,0 +1,262 @@
+﻿<Window x:Class="VendingMachine.frmOrderNow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VendingMachine"
+        mc:Ignorable="d"
+        Title="frmOrderNow" Height="1080" Width="1920" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"   
+        FontSize="30" Foreground="White" 
+        Topmost="True"   
+        Loaded="Window_Loaded" Closing="Window_Closing" PreviewKeyDown="Window_PreviewKeyDown">
+    <Window.Background>
+        <ImageBrush ImageSource="Images/vendingBg.jpg"/>
+    </Window.Background>
+    <md:DialogHost Identifier="frmOrderNowDialog">
+        <md:DialogHost.DialogContent>
+            <StackPanel>
+
+
+            </StackPanel>
+        </md:DialogHost.DialogContent>
+        <Grid Background="#C8000000">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <Button  BorderBrush="Transparent" Margin="20,0,0,10" Name="btnBack"    Click="btnBack_Click"    Height="100" Width="113"  VerticalAlignment="Bottom"  HorizontalAlignment="Left">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images/backButton.png"  />
+                </Button.Background>
+                <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center" Width="260" RenderTransformOrigin="0.636,0.648"/>
+            </Button>
+
+            <Grid Grid.ZIndex="1000" >
+
+                <!--<Image Source="Images/arokyalogo.jpg" Height="100" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,50,0"  />-->
+                <!-- <Image  Source="Images/Logo.png" Height="100" VerticalAlignment="Top"  Margin="0,10,20,0"  HorizontalAlignment="Right" />-->
+                <TextBlock Text="gurukshetra.co.in" VerticalAlignment="Bottom" TextAlignment="Center" FontSize="40"   Foreground="White"  Margin="384,0,348,8" Height="86"  />
+
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="280"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0" Margin="0,0" Height="900">
+                    <ListView x:Name="MyList"  Background="Transparent" BorderThickness="0" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Visible"  >
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="7" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Button Tag="{Binding product_id}"  Width="150" Height="120" Margin="0,5,0,0" Padding="1" md:ShadowAssist.ShadowDepth="Depth3" Background="White" BorderBrush="White" BorderThickness="2" Click="btnItem_Click" >
+                                    <Button.Content>
+                                        <StackPanel Margin="0,0,0,0" Height="120">
+                                            <Grid Margin="0,0,0,0" Height="120">
+                                                <TextBlock Text="{Binding offer}"   Visibility="{Binding show_offer}"  FontSize="10" Background="#C6000000" Foreground="White" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
+
+                                                <Border CornerRadius="5"  Width="150" Height="120"  Opacity="{Binding opacity}" BorderBrush="Transparent" BorderThickness="0">
+                                                    <Border.Background>
+                                                        <ImageBrush  Stretch="Fill" ImageSource="{Binding img_path}"   />
+                                                    </Border.Background>
+
+
+                                                    <Grid VerticalAlignment="Bottom" MinHeight="25"  Margin="0,0,0,0"  Background="#C6000000">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="20"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="5"/>
+                                                            <ColumnDefinition Width="50"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!--<DockPanel Grid.Column="0">
+                                                            <Button  Tag="{Binding product_id}" Click="btnViewDetails_Click" Padding="0"   Width="38" Height="60" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignRaisedButton}" >
+                                                                <md:PackIcon Kind="InformationVariant" Width="30" Height="30" />
+                                                            </Button>
+                                                        </DockPanel>-->
+
+                                                        <DockPanel Grid.Column="1" >
+                                                            <Grid>
+                                                                <Image   Height="15"  Stretch="Fill" Source="{Binding tamil_path }" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                                                <TextBlock Text="{Binding product_name}" Foreground="White" FontSize="10" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                                            </Grid>
+                                                        </DockPanel>
+
+                                                        <DockPanel Grid.Column="2" >
+                                                            <Border BorderThickness="1" CornerRadius="10" Background="White" Margin="1,2,1,1" />
+                                                        </DockPanel>
+
+                                                        <WrapPanel  Grid.Column="3"  Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                                                            <TextBlock Text="₹ " Foreground="White" FontSize="10" FontWeight="Normal" TextWrapping="Wrap" />
+                                                            <TextBlock Text="{Binding price}" Foreground="White" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" />
+                                                        </WrapPanel>
+
+                                                    </Grid>
+
+
+                                                </Border>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter Property="VerticalContentAlignment" Value="Top" />
+                                <Setter Property="VerticalAlignment" Value="Top" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                    </ListView>
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <Border BorderThickness="1" CornerRadius="20" Background="Gray" Margin="8,20,8,20" />
+                </DockPanel>
+                <DockPanel Grid.Column="2">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="70" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Your Orders" Background="Yellow" Foreground="Black" FontSize="30" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Bottom" />
+
+                        <DockPanel Grid.Row="1">
+                            <ListView x:Name="MyCart"  Background="Transparent" BorderThickness="0" Margin="20,10"  VerticalContentAlignment="Top" VerticalAlignment="Top">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="2" CornerRadius="5" Height="100" Width="120" BorderBrush="White" Margin="5" >
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding img_path, Mode=OneWay}" />
+                                            </Border.Background>
+                                            <DockPanel  Width="120" Height="120" Tag="{Binding product_id}" Background="#7F171717">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="50"/>
+                                                        <RowDefinition Height="50"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <DockPanel Grid.Row="0">
+                                                        <TextBlock Text="{Binding product_name}" FontSize="15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#FFFFCC33" />
+                                                    </DockPanel>
+                                                    <DockPanel Grid.Row="1">
+                                                        <Grid >
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="5*"/>
+                                                                <ColumnDefinition Width="3*"/>
+                                                                <ColumnDefinition Width="5*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Button Grid.Column="0"  Tag="{Binding product_id}" Height="30" Width="30" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" VerticalAlignment="Center" Click="btnLess_Click">
+                                                                <md:PackIcon  Kind="Minus" Height="14" Width="14" />
+                                                            </Button>
+
+                                                            <TextBlock   Grid.Column="1"  Name="lblQty"  Tag="{Binding product_id}" Text="{Binding qty}"  FontSize="15" TextAlignment="Center" VerticalAlignment="Center"  Foreground="White" />
+
+                                                            <Button  Grid.Column="2"   Tag="{Binding product_id}" Height="30" Width="30" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" Click="btnAdd_Click" VerticalAlignment="Center">
+                                                                <md:PackIcon  Kind="Plus" Height="14" Width="14" />
+                                                            </Button>
+
+                                                        </Grid>
+                                                    </DockPanel>
+                                                    <DockPanel Grid.Row="2">
+                                                        <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+                                                            <TextBlock FontSize="15" FontWeight="Bold" Foreground="#FFFFCC33" Text="Rs."/>
+                                                            <TextBlock FontSize="15" FontWeight="Bold" Foreground="#FFFFCC33" Text="{Binding amt}"/>
+                                                            <TextBlock FontSize="15" FontWeight="Bold" Foreground="#FFFFCC33" Text="/-"/>
+                                                        </WrapPanel>
+                                                    </DockPanel>
+                                                </Grid>
+                                            </DockPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                    <ContentPresenter />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <Setter Property="VerticalContentAlignment" Value="Top" />
+                                        <Setter Property="VerticalAlignment" Value="Top" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+
+                            </ListView>
+                        </DockPanel>
+
+                        <DockPanel Grid.Row="2">
+                            <Grid Margin="60,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0"  Text="Qty " FontSize="25" />
+                                <WrapPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock   Text=": " FontSize="25" />
+                                    <TextBlock Name="txtTotQty" Text="0" FontSize="25" />
+                                </WrapPanel>
+                                <TextBlock Grid.Row="1" Grid.Column="0"  Text="Amt " FontSize="25" />
+                                <WrapPanel Grid.Row="1" Grid.Column="1">
+                                    <TextBlock   Text=": ₹ " FontSize="25" />
+                                    <TextBlock Name="txtTotAmt" Text="0" FontSize="25" />
+
+                                </WrapPanel>
+                            </Grid>
+                        </DockPanel>
+
+                        <DockPanel Grid.Row="3">
+
+                            <Button Name="btnUPI" Click="btnUPI_Click" Background="Yellow" Foreground="Black" BorderBrush="Yellow"  FontSize="30" FontWeight="Bold"  Padding="0"   Width="275" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" >
+                                <StackPanel  VerticalAlignment="Center" >
+                                    <TextBlock   Text="Check Out" HorizontalAlignment="Center" FontSize="25"  />
+
+                                </StackPanel>
+                            </Button>
+                        </DockPanel>
+
+                    </Grid>
+
+                </DockPanel>
+
+            </Grid>
+        </Grid>
+
+    </md:DialogHost>
+</Window>

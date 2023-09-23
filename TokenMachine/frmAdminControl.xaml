@@ -1,0 +1,36 @@
+﻿<Window x:Class="VendingMachine.frmAdminControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VendingMachine"
+        mc:Ignorable="d"
+        Title="frmAdminControl" Height="1080" Width="1920" WindowState="Maximized" ResizeMode="NoResize"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        FontSize="25" Foreground="White" 
+        Topmost="True"  
+        Loaded="Window_Loaded" Closing="Window_Closing" >
+    <Window.Background>
+        <ImageBrush ImageSource="Images/vendingBg.jpg"/>
+    </Window.Background>
+    <Grid Background="#C8000000">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <TextBlock Text="ADMIN CONTROLS" FontSize="25" FontWeight="Bold" TextAlignment="Center" Width="500" Height="50" VerticalAlignment="Top" OpacityMask="Black" Foreground="#FF08090C" />
+        </DockPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical"  Margin="10,50,0,0">
+            <Button  Name="btnRefill" Content="Refill" Margin="10,10,0,10" Click="btnRefill_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
+            <Button  Name="btnAddProduct" Content="Add Product" Margin="10,0,0,10"  Click="btnAddProduct_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
+            <Button  Name="btnReport" Content="Report" Margin="10,0,0,10" Click="btnReport_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
+            <Button  Name="btnGotoHome" Content="Go to Home" Margin="10,0,0,10" Click="btnGotoHome_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
+            <Button  Name="btnShutdown" Content="Shutdown" Margin="10,0,0,10" Click="btnShutdown_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
+            <Button  Name="btnRestart" Content="Restart" Margin="10,0,0,10" Click="btnRestart_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
+        </StackPanel>
+        
+    </Grid>
+</Window>
