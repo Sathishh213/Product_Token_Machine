@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendingMachine.Helpers.paytm.transaction_status
+namespace TokenMachine.Helpers.paytm.transaction_status
 {
     class paytm_transaction_status_response
     {

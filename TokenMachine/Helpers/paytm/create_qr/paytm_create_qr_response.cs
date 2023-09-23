@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendingMachine.Helpers.paytm.create_qr
+namespace TokenMachine.Helpers.paytm.create_qr
 {
     public class paytm_create_qr_response
     {

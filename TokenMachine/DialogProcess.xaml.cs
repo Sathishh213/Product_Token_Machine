@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for DialogProcess.xaml

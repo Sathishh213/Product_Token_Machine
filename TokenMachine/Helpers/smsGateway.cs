@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     public static class smsGateway
     {

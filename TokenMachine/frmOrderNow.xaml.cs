@@ -11,9 +11,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using VendingMachine.Helpers;
+using TokenMachine.Helpers;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmOrderNow.xaml

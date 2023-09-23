@@ -4,9 +4,9 @@ using System.IO.Ports;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using VendingMachine.Helpers;
+using TokenMachine.Helpers;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmThankyou.xaml

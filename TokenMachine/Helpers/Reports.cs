@@ -9,7 +9,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     public class Reports
     {

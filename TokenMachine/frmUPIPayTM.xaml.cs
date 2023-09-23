@@ -1,5 +1,5 @@
-﻿using VendingMachine.Helpers.paytm.create_qr;
-using VendingMachine.Helpers.paytm.transaction_status;
+﻿using TokenMachine.Helpers.paytm.create_qr;
+using TokenMachine.Helpers.paytm.transaction_status;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -18,11 +18,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using VendingMachine.Helpers;
+using TokenMachine.Helpers;
 using Newtonsoft.Json;
 using Paytm;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmUPIPayTM.xaml

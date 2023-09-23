@@ -16,9 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using VendingMachine.Helpers;
+using TokenMachine.Helpers;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmRefill.xaml

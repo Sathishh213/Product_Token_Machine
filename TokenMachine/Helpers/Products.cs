@@ -1,4 +1,4 @@
-﻿namespace VendingMachine.Helpers
+﻿namespace TokenMachine.Helpers
 {
     public class Products
     {

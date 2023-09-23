@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     class Stocks
     {

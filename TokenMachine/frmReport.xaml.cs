@@ -16,7 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using VendingMachine.Helpers;
+using TokenMachine.Helpers;
 using Microsoft.Office.Interop.Excel;
 using System.Net.Mail;
 using System.Net.Http.Headers;
@@ -33,7 +33,7 @@ using System.ComponentModel;
 using DataTable = System.Data.DataTable;
 using System.Globalization;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmReport.xaml

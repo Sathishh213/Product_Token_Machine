@@ -1,8 +1,7 @@
 
+create database TokenMachine_DB;
 
---create database Product_Store;
-
-use database Product_Store;
+use database TokenMachine_DB;
 
 select * from mst_product;
 

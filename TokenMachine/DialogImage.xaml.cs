@@ -3,7 +3,7 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for DialogImage.xaml

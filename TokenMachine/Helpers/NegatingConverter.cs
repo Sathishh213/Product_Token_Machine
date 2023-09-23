@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     public class NegatingConverter : IValueConverter
     {

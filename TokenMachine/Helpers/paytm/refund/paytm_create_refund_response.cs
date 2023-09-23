@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VendingMachine.Helpers.paytm.refund
+namespace TokenMachine.Helpers.paytm.refund
 {
     class paytm_create_refund_response
     {

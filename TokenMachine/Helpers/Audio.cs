@@ -1,6 +1,6 @@
 ﻿using System.Speech.Synthesis;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     class Audio
     {

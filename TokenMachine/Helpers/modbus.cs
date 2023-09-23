@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     class modbus
     {

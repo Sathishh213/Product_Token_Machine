@@ -1,4 +1,4 @@
-﻿using VendingMachine.Helpers.paytm.refund;
+﻿using TokenMachine.Helpers.paytm.refund;
 using log4net;
 using MaterialDesignThemes.Wpf;
 using System;
@@ -22,13 +22,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using VendingMachine.Helpers;
+using TokenMachine.Helpers;
 using System.IO.Ports;
 using Newtonsoft.Json;
 using Paytm;
 using System.Diagnostics;
 
-namespace VendingMachine
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmVending.xaml

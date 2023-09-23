@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     public static class config
     {

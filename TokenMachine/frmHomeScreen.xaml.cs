@@ -17,8 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using VendingMachine.Helpers;
-namespace VendingMachine
+using TokenMachine.Helpers;
+namespace TokenMachine
 {
     /// <summary>
     /// Interaction logic for frmHomeScreen.xaml

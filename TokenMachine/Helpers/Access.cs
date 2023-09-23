@@ -4,7 +4,7 @@ using System;
 using System.Data;
 using System.Net.NetworkInformation;
 
-namespace VendingMachine.Helpers
+namespace TokenMachine.Helpers
 {
     public class Access
     {
@@ -12,7 +12,7 @@ namespace VendingMachine.Helpers
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private string ConnectionString = "server=127.0.0.1;user id=root;password=Deepan@123;database=product_store";
+        private string ConnectionString = "server=127.0.0.1;user id=root;password=Deepan@123;database=TokenMachine_DB";
 
         public string GetDeviceLoginId()
         {
