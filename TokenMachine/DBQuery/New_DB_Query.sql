@@ -1,14 +1,7 @@
 
 create database TokenMachine_DB;
 
-use database TokenMachine_DB;
-
-select * from mst_product;
-
---update mst_product p set p.stock = 5 , soldout = 0  where p.product_id = 102
-
---delete from mst_product where product_id = 106
-
+use TokenMachine_DB;
 
 CREATE TABLE mst_product(
     product_id bigint NOT NULL AUTO_INCREMENT,
@@ -34,19 +27,22 @@ SELECT product_id, product_name , sum(stock) as 'Available InStock',OutOfStock  
 ) as M group by M.product_id;
 
 
---insert into mst_product values(101,'Little Hearts',10,'/Images/LittleHearts.jpg',20,0);
---insert into mst_product values(102,'Lays Green',10,'/Images/Lays-Green.png',20,0);
---insert into mst_product values(103,'Bounce',10,'/Images/Bounce.jpg',20,0);
---insert into mst_product values(104,'Dark Fantasy',10,'/Images/DarkFantasy.jpg',20,0);
---insert into mst_product values(105,'Lays Red',10,'/Images/Lays-Red.jpg',20,0);
---insert into mst_product values(106,'HideNSeek',10,'/Images/Lays-Red.jpg',20,0);
+insert into mst_product values(101,'Little Hearts',10,'/Images/LittleHearts.jpg',20,0);
+insert into mst_product values(102,'Lays Green',10,'/Images/Lays-Green.png',20,0);
+insert into mst_product values(103,'Bounce',10,'/Images/Bounce.jpg',20,0);
+insert into mst_product values(104,'Dark Fantasy',10,'/Images/DarkFantasy.jpg',20,0);
+insert into mst_product values(105,'Lays Red',10,'/Images/Lays-Red.jpg',20,0);
+insert into mst_product values(106,'HideNSeek',10,'/Images/Lays-Red.jpg',20,0);
 
 
---update mst_product set img_path='/Images/LittleHearts.png' where product_id=101;
---update mst_product set img_path='/Images/Lays-Green.png' where product_id=102;
---update mst_product set img_path='/Images/Bounce.png' where product_id=103;
---update mst_product set img_path='/Images/DarkFantasy.png' where product_id=104;
---update mst_product set img_path='/Images/Lays-Red.png' where product_id=105;
+update mst_product set img_path='/Images/LittleHearts.png' where product_id=101;
+update mst_product set img_path='/Images/Lays-Green.png' where product_id=102;
+update mst_product set img_path='/Images/Bounce.png' where product_id=103;
+update mst_product set img_path='/Images/DarkFantasy.png' where product_id=104;
+update mst_product set img_path='/Images/Lays-Red.png' where product_id=105;
+
+select * from mst_product;
+
 
 CREATE TABLE paytm_upi (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -68,17 +64,7 @@ CREATE TABLE paytm_upi (
   refund_code VARCHAR(10) DEFAULT NULL,
   refund_msg varchar(50) DEFAULT NULL,
   PRIMARY KEY (id)
-) 
-
-
---select current_timestamp;
-
---select order_id as 'Order ID',product_lineitems as 'Order Details',total_amount as 'Order Amount',
--- total_quantity as 'Order Quantity',order_datetime as 'Order Date',payment_method as 'Payment Method', 
--- transaction_id as 'Transaction ID',machine_id as 'Machine ID'   from sales_order;
-
---drop table sales_order;
-
+); 
 
 CREATE TABLE sales_order(
     order_id bigint NOT NULL AUTO_INCREMENT,
