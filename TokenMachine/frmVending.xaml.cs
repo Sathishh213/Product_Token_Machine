@@ -146,27 +146,16 @@ namespace TokenMachine
 
         public void close()
         {
-            //if (config.inmode == "Cash" && (config.in_amt - (total_vended + issued_balance)) > 0)
-            //{
-            //    frmSendBalanceOTP frm = new frmSendBalanceOTP();
-            //    mb.Close();
-            //    tmr_msg.Stop();
-            //    this.Close();
-            //    frm.Show();
-            //}
-            //else
-            //{
-                frmThankyou frm = new frmThankyou();
-                mb.Close();
-                tmr_msg.Stop();
-                this.Close();
-                frm.Show();
-            //}
+           frmThankyou frm = new frmThankyou();
+           mb.Close();
+           tmr_msg.Stop();
+           this.Close();
+           frm.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lblinfo.Text = $"Order Items: {config.ordered.Count}        Total Quantity: {(from k in config.ordered select k.qty).Sum()}       Order Amount: ₹{config.tot_amt}";
+            lblMessage.Text = $"Printing your token...please wait!!!";
         }
 
 
@@ -180,56 +169,28 @@ namespace TokenMachine
                 tmr_msg.Interval = new TimeSpan(0, 0, 0, 0, 500);
 
                 string cmd = "";
-                if (config.sales_code.Trim() == "")
-                {
-                    //cmd = "SELECT  concat('" + config.machine_id + "' , LPAD( count(sales_code) + 1, 6, 0 ) ) as sales_code FROM tbl_sales where machine_id = '" + config.machine_id + "'";
-                    //config.sales_code = Convert.ToString(acc.GetValue(cmd));
-                }
-
-                //cmd = @"insert into tbl_sales(machine_id , sales_code, sales_date , sales_type , customer_id , total , payment, change_issued, id_card_number, customer_code , customer_name, mobile_no, updatedon) 
-                //        value ('" + config.machine_id + "' , '" + config.sales_code + "' ,now() , '" + config.inmode + "' , " + config.cus_id + " , " + total_vended + " , 0 , '0' , '" + config.idcardnumber + "' , '" + config.cus_code + "' , '" + config.cus_name + "', '" + config.cus_mobile_no + "' , now() )";
-                //acc.ExecuteCmd(cmd);
-
                 log.Info("Bill No: " + config.sales_code);
 
                 for (int i = 0; i < config.ordered.Count; i++)
                 {
                     config.ordered[i].Sno = i + 1;
-                    config.ordered[i].amt = 0;
+                    config.ordered[i].amt = config.ordered[i].qty * config.ordered[i].price;
                     log.Info(config.ordered[i].Sno + "\t" + config.ordered[i].product_name + "\t" + config.ordered[i].qty);
                 }
 
-
-                lstItems.ItemsSource = null;
-                lstItems.Items.Clear();
-                lstItems.ItemsSource = config.ordered;
+                PaidOrderDetailsDataGrid.ItemsSource = null;
+                PaidOrderDetailsDataGrid.Items.Clear();
+                PaidOrderDetailsDataGrid.ItemsSource = config.ordered;
 
                 this.UpdateLayout();
-                lstItems.UpdateLayout();
-
-                for (int i = 0; i < lstItems.Items.Count; i++)
-                {
-                    ListViewItem item = lstItems.ItemContainerGenerator.ContainerFromIndex(i) as ListViewItem;
-                    ContentPresenter templateParent = GetVisualChild<ContentPresenter>(item);
-                    DataTemplate dataTemplate = lstItems.ItemTemplate;
-                    ListView btnItem = dataTemplate.FindName("lstItemsButtons", templateParent) as ListView;
-
-                    for (int x = 0; x < config.ordered[i].qty; x++)
-                    {
-                        btnItem.Items.Add("");
-                    }
-                }
-
-
-                lstItems.UpdateLayout();
-
+                PaidOrderDetailsDataGrid.UpdateLayout();
                 VendingAsync();
 
             }
             catch (Exception ex)
             {
                 log.Error(ex);
-                DisplayMsg("Vending machine running into trouble, Please try aftersome times.");
+                DisplayMsg("Machine running into trouble, Please try aftersome times.");
                 close();
             }
         }
@@ -240,7 +201,7 @@ namespace TokenMachine
             try
             {
 
-                VirtualizingStackPanel.SetIsVirtualizing(lstItems, false);
+                //VirtualizingStackPanel.SetIsVirtualizing(lstItems, false);
 
                 string cmd = "";
 
@@ -248,38 +209,16 @@ namespace TokenMachine
                 string msg = "";
                 int wait_count = 0;
                 await Task.Delay(000);
-                if (machine_ready()) // machine_ready()
-                {
-                    //LEDOff();
-                    // For Vend
+                //if (machine_ready()) // machine_ready()
+                //{
                     try
                     {
                         ListView btnlst = null; string value = null;
-                        for (int i = 0; i < config.ordered.Count; i++)
-                        {
-                            this.UpdateLayout();
-                            lstItems.UpdateLayout();
-                            lstItems.ScrollIntoView(lstItems.Items[i]);
-
-                            ListViewItem item = lstItems.ItemContainerGenerator.ContainerFromIndex(i) as ListViewItem;
-                            ContentPresenter templateParent = GetVisualChild<ContentPresenter>(item);
-                            DataTemplate dataTemplate = lstItems.ItemTemplate;
-                            btnlst = dataTemplate.FindName("lstItemsButtons", templateParent) as ListView;
-                            lblStatus = dataTemplate.FindName("lblStatus", templateParent) as TextBlock;
-                            lblStatus.Text = "";
-                            lstItems.UpdateLayout();
-
-                            value += string.Format("{0}*{1};", config.ordered[i].product_id, config.ordered[i].qty);
-                        }
-                        string bindedvalue = string.Format("[{0}]\n", value);//string
-
-                         
-                         //Console.WriteLine(bindedvalue);
                         
-                        mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                        bool write = mb.SerialCmdSendProductandQuantity(bindedvalue);
-                       
-                        mb.Close();
+                        //string bindedvalue = string.Format("[{0}]\n", value);//string
+                        //mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
+                        //bool write = mb.SerialCmdSendProductandQuantity(bindedvalue);
+                        //mb.Close();
 
                         wait_count = 0; int quantity = 0; int soldout = 0;
                         for (int i = 0; i < config.ordered.Count; i++)
@@ -304,30 +243,13 @@ namespace TokenMachine
 
                             for (int j = 1; j <= config.ordered[i].qty; j++)
                             {
-
-                                ListViewItem item_button_list = btnlst.ItemContainerGenerator.ContainerFromIndex(j - 1) as ListViewItem;
-                                ContentPresenter templateParentlst = GetVisualChild<ContentPresenter>(item_button_list);
-                                DataTemplate dataTemplatelst = btnlst.ItemTemplate;
-                                Button btn = dataTemplatelst.FindName("btn", templateParentlst) as Button;
-
-                                PackIcon pi = new PackIcon();
-                                pi.Kind = PackIconKind.DotsHorizontal;
-                                btn.Content = pi;
-
-                                ButtonProgressAssist.SetMaximum(btn, 100);
                                 bool delivery = true;
                                 if (delivery)
                                 {
 
                                     config.ordered[i].vend = config.ordered[i].vend + 1;
                                     config.ordered[i].amt = config.ordered[i].vend * config.ordered[i].price;
-
-                                    ButtonProgressAssist.SetValue(btn, 100);
-                                    ButtonProgressAssist.SetIsIndeterminate(btn, false);
-                                    pi = new PackIcon();
-                                    pi.Kind = PackIconKind.Check;
-                                    btn.Content = pi;
-                                    lblStatus.Text = "Vended...";
+                                    //lblStatus.Text = "Vended...";
 
                                 }
                             }
@@ -338,12 +260,12 @@ namespace TokenMachine
                     {
                         log.Error(ex2);
                     }
-                }
-                else
-                {
-                    log.Info("Machine out of order");
-                    DisplayMsg("Machine out of order");
-                }
+                //}
+                //else
+                //{
+                //    log.Info("Machine out of order");
+                //    DisplayMsg("Machine out of order");
+                //}
 
                 try
                 {
@@ -356,7 +278,7 @@ namespace TokenMachine
                     List<product_lineItem> product_LineItems = new List<product_lineItem>();
                     for (int i = 0; i < config.ordered.Count; i++)
                     {
-                        product_lineItem product = new product_lineItem { price = config.ordered[i].price, product_id = config.ordered[i].product_id, product_name = config.ordered[i].product_name, quantity = config.ordered[i].qty };
+                        product_lineItem product = new product_lineItem { price = config.ordered[i].amt, product_id = config.ordered[i].product_id, product_name = config.ordered[i].product_name, quantity = config.ordered[i].qty };
                         product_LineItems.Add(product);
                     }
                     string product_LineItems_JsonData = JsonConvert.SerializeObject(product_LineItems);
@@ -369,7 +291,6 @@ namespace TokenMachine
                         //LEDOn();
                     }
                     bal = (int)(config.in_amt - total_vended);
-
                 }
                 catch (Exception ex)
                 {
@@ -384,107 +305,17 @@ namespace TokenMachine
 
             if (total_vended > 0 && bal == 0)
             {
-                Audio.Speak("Collect your product, !!! Thank you, Visit again...");
+                Audio.Speak("Get Your Token, !!! Thank you, Visit again...");
+                lblMessage.Text = "Token Generated";
             }
             else
             {
                 Audio.Speak("Sorry for the Inconvenience, Visit again...");
+                lblMessage.Text = "Unable to Generate the Token";
             }
 
             config.tot_amt = total_vended;
-            close();
-        }
-
-        private void DebitBalance(string CardId, int debitAmount)
-        {
-            try
-            {
-                log.Info("Debiting Baalance : Rs ." + debitAmount + " for " + CardId);
-                string url = $"https://live.foodiegoodie.in/api/Customer/debit?cardId={CardId}&amount={debitAmount}";
-
-                var data = new StringContent("");
-
-                var response = httpClient.PostAsync(url, data).Result;
-                string resText = response.Content.ReadAsStringAsync().Result;
-                log.Info("Debit balance status code : " + response.StatusCode + ", Response : " + resText);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-
-
-        private void refundUPI(decimal balance)
-        {
-            try
-            {
-                string Mid = Properties.Settings.Default.paytm_mid;
-                string M_key = Properties.Settings.Default.paytm_m_key;
-                string refund_id = "R" + DateTime.Now.ToString("yyMMddHHmmss");
-
-                Dictionary<string, string> body = new Dictionary<string, string>();
-                Dictionary<string, string> head = new Dictionary<string, string>();
-                Dictionary<string, Dictionary<string, string>> requestBody = new Dictionary<string, Dictionary<string, string>>();
-
-                body.Add("mid", Mid);
-                body.Add("txnType", "REFUND");
-                body.Add("orderId", config.paytm_upi_order_id);
-                body.Add("txnId", config.paytm_upi_txnId);
-                body.Add("refId", refund_id);
-                body.Add("refundAmount", balance.ToString("0.00"));
-
-                /*
-                * Generate checksum by parameters we have in body
-                * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
-                */
-                string paytmChecksum = Checksum.generateSignature(JsonConvert.SerializeObject(body), M_key);
-
-                head.Add("signature", paytmChecksum);
-
-                requestBody.Add("body", body);
-                requestBody.Add("head", head);
-
-                string post_data = JsonConvert.SerializeObject(requestBody);
-
-                //For  Staging
-                // string url = "https://securegw.paytm.in/refund/apply";
-
-                //For  Production 
-                string url = "https://securegw.paytm.in/refund/apply";
-
-                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-
-                webRequest.Method = "POST";
-                webRequest.ContentType = "application/json";
-                // webRequest.ContentLength = post_data.Length;
-
-                using (StreamWriter requestWriter = new StreamWriter(webRequest.GetRequestStream()))
-                {
-                    requestWriter.Write(post_data);
-                }
-
-                string responseData = string.Empty;
-
-                using (StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream()))
-                {
-                    responseData = responseReader.ReadToEnd();
-                    log.Info(responseData);
-                }
-
-                paytm_create_refund_response response = JsonConvert.DeserializeObject<paytm_create_refund_response>(responseData);
-
-                if (response != null)
-                {
-                    string cmd = $"update paytm_upi set is_refunded = 1, refund_request_date = current_timestamp(), refund_request_id = '{refund_id}', refund_request_amount = '{balance}', refund_id = '{response.body.txnId}', refund_code = '{response.body.resultInfo.resultCode}', refund_msg = '{response.body.resultInfo.resultMsg}'  where order_id = '{config.paytm_upi_order_id}'";
-                    acc.ExecuteCmd(cmd);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            //close();
         }
 
         public bool machine_ready()
@@ -502,448 +333,6 @@ namespace TokenMachine
             mb.Close();
             return state;
         }
-
-        public int ProcessCode()
-        {
-            int ret = -1;
-            try
-            {
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-                    ushort start = 0; // Read Motor Connected Status
-                    short[] values = new short[1];
-                    int address = 1;
-                    ushort registers = 1;
-                 // bool send = mb.SendFc4(Convert.ToByte(address), start, registers, ref values);
-                   // if (send)
-                    //{
-                    //    ret = Convert.ToInt32(values[0]);
-                    //}
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-            return ret;
-        }
-
-        /* public string check_rowfeedback()
-        {
-            string msg = "";
-            try
-            {
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-                    ushort start = 23; // Read Motor Connected Status
-                    short[] values = new short[1];
-                    int address = 1;
-                    ushort registers = 1;
-                    bool send = mb.SendFc3(Convert.ToByte(address), start, registers, ref values);
-                    if (send)
-                    {
-                        int ret = Convert.ToInt32(values[0]);
-                        if (ret == 0)
-                        {
-                            //  lbl_Message.Text = "All rows OK";
-                            //  lbl_Message.ForeColor = Color.Green;
-                        }
-                        else
-                        {
-                            BitArray b = new BitArray(new int[] { ret });
-                            bool[] bits = new bool[b.Count];
-                            b.CopyTo(bits, 0);
-
-                            for (int i = 0; i < b.Count; i++)
-                            {
-                                if (bits[i])
-                                {
-                                    msg = msg + (i + 1) + ",";
-                                }
-                            }
-                            //   lbl_Message.Text = "Row " + msg + " is not in Home";
-                            //  lbl_Message.ForeColor = Color.Red;
-                        }
-                    }
-
-                }
-                else
-                {
-                    //  lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-            return msg;
-        }
-        */
-        /*
-        public bool check_sensor()
-        {
-            bool state = false;
-
-            try
-            {
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-
-                //   mb.Open(cmbPort.SelectedItem.ToString(), Convert.ToInt32(cmbBaudrate.SelectedItem.ToString()), Convert.ToInt16(cmbDatabit.SelectedItem.ToString()), (Parity)Enum.Parse(typeof(Parity), cmbParity.SelectedItem.ToString()), (StopBits)Enum.Parse(typeof(StopBits), cmbStopBits.SelectedItem.ToString()));
-                if (open)
-                {
-                    bool[] values = new bool[2];
-                    int address = 1;
-                    ushort start = 8; // for Input Status 
-                    ushort registers = 4;
-                    bool send = mb.SendFc1(Convert.ToByte(address), start, registers, ref values);
-                    if (send)
-                    {
-                        state = values[0];
-                        //   lbl_Message.Text = values[0].ToString() + "  " + values[1].ToString() + "  " + values[2].ToString() + "  " + values[3].ToString();
-                    }
-                    else
-                    {
-                        //  lbl_Message.Text = "Write failed - " + mb.modbusStatus;
-                    }
-                }
-                else
-                {
-                    //  lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-            return state;
-        }
-        */
-
-        /*
-        public void reset_sensor()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-
-                    int address = 1;
-                    ushort start = (ushort)(8); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, false);
-                }
-                else
-                {
-                    // lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-        */
-
-        /*
-        public void ResetStatus()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-
-                    int address = 1;
-                    ushort start = (ushort)(8); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, false);
-                }
-                else
-                {
-                    // lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-        */
-        /*
-        public bool[] intrupt_sensor()
-        {
-
-            bool[] values = new bool[2];
-            int address = 1;
-            ushort start = 1;
-            ushort registers = 2;
-
-            bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-            if (open)
-            {
-                bool send = mb.SendFc2(Convert.ToByte(address), start, registers, ref values);
-                if (!send)
-                {
-                    log.Info(mb.modbusStatus);
-                }
-            }
-            mb.Close();
-            return values;
-        }
-        */
-        /*
-        public bool CamHomeSensor()
-        {
-            bool state = false;
-            try
-            {
-                bool[] values = new bool[2];
-                int address = 1;
-                ushort start = 2; //10002
-                ushort registers = 2;
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                bool send = mb.SendFc2(Convert.ToByte(address), start, registers, ref values);
-                if (send)
-                {
-                    state = values[0];
-                }
-                else
-                {
-                    log.Info(mb.modbusStatus);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-            return state;
-        }
-        */
-
-        /*
-        public bool CamEndSensor()
-        {
-            bool state = false;
-            try
-            {
-                bool[] values = new bool[2];
-                int address = 1;
-                ushort start = 3; //10003
-                ushort registers = 2;
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                bool send = mb.SendFc2(Convert.ToByte(address), start, registers, ref values);
-                if (send)
-                {
-                    state = values[0];
-                }
-                else
-                {
-                    log.Info(mb.modbusStatus);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-            return state;
-        }
-        */
-
-        /*
-        public bool DoorLockSensor()
-        {
-            bool state = false;
-            try
-            {
-                bool[] values = new bool[2];
-                int address = 1;
-                ushort start = 4; //10004
-                ushort registers = 2;
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                bool send = mb.SendFc2(Convert.ToByte(address), start, registers, ref values);
-                if (send)
-                {
-                    state = values[0];
-                }
-                else
-                {
-                    log.Info(mb.modbusStatus);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-            return state;
-        }
-        */
-
-        /*
-        public void CamOn()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-
-                    int address = 1;
-                    ushort start = (ushort)(2); // for CAM 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, true);
-                }
-                else
-                {
-                    // lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-        */
-        /*
-        public void CamOff()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-
-                    int address = 1;
-                    ushort start = (ushort)(1); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, false);
-                }
-                else
-                {
-                    // lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-        */
-
-        /*
-        public void DoorOpen()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-
-                    int address = 1;
-                    ushort start = (ushort)(1); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, true);
-                }
-                else
-                {
-                    // lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-        */
-
-        /*
-        public void DoorClose()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-
-                    int address = 1;
-                    ushort start = (ushort)(1); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, false);
-                }
-                else
-                {
-                    // lbl_Message.Text = "Port connected failed - " + mb.modbusStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-        */
-       /*
-        public void LEDOn()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-                    int address = 1;
-                    ushort start = (ushort)(8); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, true);
-                }
-                else
-                {
-                    log.Info("Port connected failed - " + mb.modbusStatus);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-
-        public void LEDOff()
-        {
-            try
-            {
-
-                bool open = mb.Open(Hardware.vending_port, Hardware.vending_BaudRate, Hardware.vending_DataBits, Hardware.vending_Parity, Hardware.vending_StopBits);
-                if (open)
-                {
-                    int address = 1;
-                    ushort start = (ushort)(8); // for sensor 
-                    bool send = mb.SendFc5(Convert.ToByte(address), start, false);
-                }
-                else
-                {
-                    log.Info("Port connected failed - " + mb.modbusStatus);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            mb.Close();
-        }
-       */
 
 
         private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject

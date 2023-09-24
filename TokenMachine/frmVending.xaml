@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TokenMachine"
         mc:Ignorable="d"
-        Title="frmVending" Height="1080" Width="1920" WindowState="Maximized"  ResizeMode="NoResize"
+        Title="frmVending" Height="1080" Width="1920" WindowState="Maximized"  ResizeMode="NoResize" WindowStyle="None"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"   
         FontSize="25" Foreground="White" 
         Topmost="True"   
@@ -27,127 +27,40 @@
             </Grid>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
                     <RowDefinition Height="80"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
                 <DockPanel Grid.Row="0">
-                    <TextBlock Text="VENDING" FontSize="50" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="Get Your Token" FontSize="50" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center" />
 
                 </DockPanel>
-                <TextBlock Grid.Row="1" Name="lblinfo" Text="" FontSize="30" TextAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" Name="lblMessage" Text="" TextAlignment="Center" FontSize="25" TextWrapping="Wrap"  />
 
-                <TextBlock Grid.Row="2" Name="lblMessage" Text="" TextAlignment="Center" FontSize="25" TextWrapping="Wrap"  />
+                <DockPanel Grid.Row="2">
 
-                <DockPanel Grid.Row="3">
-                    <ListView x:Name="lstItems"  Background="Transparent" BorderThickness="0" VerticalAlignment="Top" >
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="5" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Button Name="btnItemSmartPhone" Tag="{Binding product_id}" Width="300" Height="400" Margin="0,25" Padding="1" md:ShadowAssist.ShadowDepth="Depth3" Background="White"  BorderBrush="White" >
-                                    <Button.Content>
+                    <DataGrid Name="PaidOrderDetailsDataGrid" IsReadOnly="True" AutoGenerateColumns="False" Width="800">
+                        <DataGrid.RowStyle>
 
-                                        <Border CornerRadius="5" Width="300" Height="400"  BorderBrush="Transparent" BorderThickness="0">
-                                            <Border.Background>
-                                                <ImageBrush  Stretch="Fill" ImageSource="{Binding img_path}"   />
-                                            </Border.Background>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="FontSize" Value="5"/>
+                                <Setter Property="FontFamily" Value="Arial"/>
+                                <Setter Property="Foreground" Value="Black"/>
 
-                                            <Border CornerRadius="5"  Width="300" MinHeight="100" VerticalAlignment="Bottom"  BorderBrush="Transparent" BorderThickness="0" Background="#C6000000">
-                                                <Grid >
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="0"/>
-                                                        <ColumnDefinition Width="0"/>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
-                                                        <TextBlock Name="lblStatus" Text="Queued" TextAlignment="Center" HorizontalAlignment="Stretch" />
-                                                        <ListView x:Name="lstItemsButtons"  BorderThickness="0"  Margin="10,0" >
-                                                            <ListView.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <UniformGrid Columns="5" />
-                                                                </ItemsPanelTemplate>
-                                                            </ListView.ItemsPanel>
-                                                            <ListView.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <Button Name="btn" Width="40" Height="40" Margin="5"
-                                                                          Style="{StaticResource MaterialDesignFloatingActionButton}"
-                                                                          Background="Transparent"
-                                                                          BorderBrush="Gray"
-                                                                          Foreground="White"
-                                                                          md:ButtonProgressAssist.IsIndicatorVisible="True"
-                                                                          md:ButtonProgressAssist.Value="0"  
-                                                                          md:ButtonProgressAssist.IndicatorBackground="Transparent" 
-                                                                          md:ButtonProgressAssist.IsIndeterminate="False"                 
-                                                                           />
-                                                                </DataTemplate>
-                                                            </ListView.ItemTemplate>
-                                                            <ListView.ItemContainerStyle>
-                                                                <Style TargetType="{x:Type ListViewItem}">
-                                                                    <Setter Property="Template">
-                                                                        <Setter.Value>
-                                                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                                                                <ContentPresenter />
-                                                                            </ControlTemplate>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-
-                                                                    <Setter Property="VerticalContentAlignment" Value="Top" />
-                                                                    <!--<Setter Property="VerticalAlignment" Value="Top" />-->
-                                                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                                                </Style>
-                                                            </ListView.ItemContainerStyle>
-                                                        </ListView>
-
-                                                    </StackPanel>
-
-
-                                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="20,0,0,0" Text="{Binding product_name}" Foreground="White" FontSize="18" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                                    <WrapPanel Grid.Row="1"  Grid.Column="2"  Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                                                        <TextBlock Text="₹ " Foreground="White" FontSize="18" FontWeight="Normal" TextWrapping="Wrap" />
-                                                        <TextBlock Text="{Binding price}" Foreground="White" FontSize="18" FontWeight="Normal" TextWrapping="Wrap" />
-                                                    </WrapPanel>
-                                                    <DockPanel Grid.Row="1"  Grid.Column="1" >
-                                                        <Border BorderThickness="1" CornerRadius="20" Background="White" Margin="3,4,3,4" />
-                                                    </DockPanel>
-                                                </Grid>
-                                            </Border>
-                                        </Border>
-
-                                    </Button.Content>
-                                </Button>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                            <ContentPresenter />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-
-                                <Setter Property="VerticalContentAlignment" Value="Top" />
-                                <Setter Property="VerticalAlignment" Value="Top" />
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
                             </Style>
-                        </ListView.ItemContainerStyle>
-
-                    </ListView>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="S.No" Binding="{Binding Sno}" FontSize="15" Foreground="Black" Width="100"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Product" Binding="{Binding product_name}" FontSize="15" Foreground="Black" Width="300"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Price" Binding="{Binding price}" FontSize="15" Foreground="Black" Width="100"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding qty}" FontSize="15" Foreground="Black" Width="100"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Sub Total" Binding="{Binding amt}" FontSize="15" Foreground="Black" Width="100"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
                 </DockPanel>
-                <DockPanel Grid.Row="5" >
+                <DockPanel Grid.Row="3" >
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="gurukshetra.co.in" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Background="#C8000000"  />
                     </WrapPanel>
