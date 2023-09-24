@@ -27,6 +27,10 @@ using System.IO.Ports;
 using Newtonsoft.Json;
 using Paytm;
 using System.Diagnostics;
+using System.Drawing.Printing;
+using System.Drawing;
+using Brushes = System.Drawing.Brushes;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace TokenMachine
 {
@@ -75,14 +79,14 @@ namespace TokenMachine
                 switch (msg_dispaly_time % 2)
                 {
                     case 0:
-                        lblMessage.Foreground = Brushes.Black;
+                        lblMessage.Foreground = System.Windows.Media.Brushes.Black;
                         break;
                     case 1:
-                        lblMessage.Foreground = Brushes.Transparent;
+                        lblMessage.Foreground = System.Windows.Media.Brushes.Transparent;
                         break;
 
                     default:
-                        lblMessage.Foreground = Brushes.Black;
+                        lblMessage.Foreground = System.Windows.Media.Brushes.Black;
                         break;
                 }
 
@@ -125,7 +129,7 @@ namespace TokenMachine
             Dispatcher.Invoke((Action)(() =>
             {
                 lblMessage.Text = "";
-                lblMessage.Foreground = Brushes.Black;
+                lblMessage.Foreground = System.Windows.Media.Brushes.Black;
             }));
 
         }
@@ -305,8 +309,21 @@ namespace TokenMachine
 
             if (total_vended > 0 && bal == 0)
             {
-                Audio.Speak("Get Your Token, !!! Thank you, Visit again...");
-                lblMessage.Text = "Token Generated";
+                PrintDocument printDocument = new PrintDocument();
+                printDocument.PrintPage += new PrintPageEventHandler(PrintPageHandler);
+
+                try
+                {
+                    printDocument.Print();
+                    Audio.Speak("Get Your Token, !!! Thank you, Visit again...");
+                    lblMessage.Text = "Token Generated";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Printing error: " + ex.Message);
+                    Audio.Speak("Sorry for the Inconvenience, Visit again...");
+                    lblMessage.Text = "Unable to Generate the Token";
+                }
             }
             else
             {
@@ -1001,9 +1018,7 @@ namespace TokenMachine
         {
             if (total_vended > 0)
             {
-                //display_msg("Collect your product...");
                 Audio.Speak("Collect you product, !!! Thank you, Visit again...");
-                //  lblAlert.Text = "Open the door and Collect your product...";
             }
             else
             {
@@ -1048,6 +1063,48 @@ namespace TokenMachine
             {
                 log.Error(ex);
             }
+        }
+
+        private void PrintPageHandler(object sender, PrintPageEventArgs e)
+        {
+            //Graphics graphics = e.Graphics;
+            //Font font = new Font("Arial", 12);
+            //string textToPrint = "Hello, Thermal Printer!";
+            //graphics.DrawString(textToPrint, font, System.Drawing.Brushes.Black, new PointF(10, 10));
+
+            Graphics graphics = e.Graphics;
+
+            Font regular = new Font(System.Drawing.FontFamily.GenericSansSerif, 10.0f, System.Drawing.FontStyle.Regular);
+            Font bold = new Font(System.Drawing.FontFamily.GenericSansSerif, 10.0f, System.Drawing.FontStyle.Bold);
+
+            graphics.DrawString("CHATTERS CLUB CAFE", bold, Brushes.Black, 20, 10);
+            graphics.DrawString("Coimbatore", regular, Brushes.Black, 30, 30);
+            graphics.DrawString("Mobile: +91 91597 67791", regular, Brushes.Black, 110, 50);
+            graphics.DrawLine(Pens.Black, 80, 70, 320, 70);
+            graphics.DrawString("TOKEN NO", bold, Brushes.Black, 110, 80);
+            graphics.DrawLine(Pens.Black, 80, 100, 320, 100);
+
+            //print items
+            graphics.DrawString("S.no | Items                      | Price | Qty | Sub Total |", bold, Brushes.Black, 10, 120);
+            graphics.DrawLine(Pens.Black, 10, 140, 430, 140);
+
+            for (int i = 0; i < config.ordered.Count; i++)
+            {
+                string toprint = string.Format("{0} {1} {2} {3} {4}", config.ordered[i].Sno, config.ordered[i].product_name, config.ordered[i].price, config.ordered[i].qty, config.ordered[i].amt);
+                graphics.DrawString(toprint, regular, Brushes.Black, 20, 150 + i * 20);
+            }
+            graphics.DrawLine(Pens.Black, 10, 140, 430, 140);
+            graphics.DrawString(string.Format("Total Amount : {0}", (from k in config.ordered select k.amt).Sum()), bold, Brushes.Black, 110, 180 + (config.ordered.Count * 20));
+            graphics.DrawLine(Pens.Black, 10, 140, 430, 140);
+
+            //print footer
+            //...
+
+            regular.Dispose();
+            bold.Dispose();
+
+            // Check to see if more pages are to be printed.
+            //e.HasMorePages = (itemList.Count > 20);
         }
 
     }
