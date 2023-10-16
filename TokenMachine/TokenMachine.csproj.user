@@ -13,6 +13,9 @@
     <Compile Update="frmBackground.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="frmFileUpload.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="frmHomeScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="frmBackground.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="frmFileUpload.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="frmHomeScreen.xaml">
