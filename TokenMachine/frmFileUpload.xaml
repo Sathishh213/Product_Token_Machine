@@ -22,14 +22,17 @@
         <Grid Background="#C8000000">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
                 <TextBlock Text="Upload Daily Reports" FontSize="25" FontWeight="Bold" TextAlignment="Center" Width="500" Height="50" VerticalAlignment="Top" OpacityMask="Black" Foreground="HotPink" />
             </DockPanel>
 
-            <StackPanel Grid.Row="1" Orientation="Vertical"  Margin="10,50,0,0">
+            <TextBlock x:Name="lblMessage" Grid.Row="1" Text="Files can be uploaded between 8 AM to 10 AM"  TextAlignment="Center" TextWrapping="Wrap" />
+
+            <StackPanel Grid.Row="2" Orientation="Vertical"  Margin="10,50,0,0">
                 <WrapPanel Margin="200,10">
                     <TextBlock Text="File Type"  Width="250" />
                     <TextBlock Text=":"  Width="10" FontWeight="Bold" />
@@ -39,10 +42,6 @@
                     <TextBlock Text="Upload File"  Width="250" />
                     <TextBlock Text=":"  Width="10" FontWeight="Bold" />
                     <Button Name="btnFileUpload" Content="Click to Upload"  Height="40"  Width="200" Margin="50,0,0,0" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnFileUpload_Click" />
-                </WrapPanel>
-                <WrapPanel Margin="300,40">
-                    <!--<Button  Name="btnFileUpload" Content="Upload" Margin="10,10,0,10" Click="btnFileUpload_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />-->
-                    <Button  Name="btnClear" Content="Clear" Margin="10,10,0,10" Click="btnClear_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"  Width="150" Height="50" Style="{StaticResource MaterialDesignRaisedButton}" />
                 </WrapPanel>
             </StackPanel>
 

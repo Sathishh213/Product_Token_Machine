@@ -79,6 +79,14 @@ CREATE TABLE sales_order(
 );
 
 
+CREATE TABLE Daily_Report_Details(
+    report_id bigint NOT NULL AUTO_INCREMENT,
+    filename varchar(100) DEFAULT NULL,
+    filepath varchar(100) DEFAULT NULL,
+    uploaded_datetime datetime DEFAULT NULL,
+    PRIMARY KEY (report_id)
+);
+
 
 
 

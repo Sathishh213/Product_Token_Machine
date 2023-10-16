@@ -37,7 +37,14 @@ namespace TokenMachine
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadData();
+            TimeSpan start = TimeSpan.Parse("08:00"); // 08 AM
+            TimeSpan end = TimeSpan.Parse("10:00");   // 10 AM
+            TimeSpan now = DateTime.Now.TimeOfDay;
+
+            if (now >= start && now <= end)
+            {
+                LoadData();
+            }
         }
 
         private void LoadData()
@@ -94,22 +101,34 @@ namespace TokenMachine
                         if (!Directory.Exists(fileDir))
                             Directory.CreateDirectory(fileDir);
 
+                        
+                        if (!File.Exists(fileDir + "\\" + System.IO.Path.GetFileName(open.FileName)))
+                        {
                             using (Stream s = File.Open(fileDir + "\\" + System.IO.Path.GetFileName(open.FileName), FileMode.CreateNew))
                             using (StreamWriter sw = new StreamWriter(s))
                             {
                                 sw.Write(open.FileName);
                             }
 
-                        cmd = @"insert into Daily_Report_Details(filename ,  filepath , uploaded_datetime) 
-                            values( '" + cmbFileType.SelectedValue + "' , '" + System.IO.Path.Combine(fileDir,open.FileName) + "' , now())";
-                        exe = Convert.ToInt16(acc.ExecuteCmd(cmd));
+                            var filepath = System.IO.Path.Combine(fileDir, open.FileName).ToString().Replace("\\", "\\\\");
+
+                            cmd = @"insert into Daily_Report_Details(filename ,  filepath , uploaded_datetime) 
+                            values( '" + cmbFileType.SelectedValue + "' , '" + filepath + "' , now())";
+                            exe = Convert.ToInt16(acc.ExecuteCmd(cmd));
+
+                            if (exe > 0)
+                            {
+                                LoadData();
+                                DisplayMsg("Uploaded Successfully");
+                            }
+                            else
+                                DisplayMsg("Saved Failed");
+                        }
+                        else
+                        {
+                            DisplayMsg("File Already Exists!!");
+                        }
                     }
-                    if (exe > 0) {
-                        LoadData();
-                        DisplayMsg("Uploaded Successfully");
-                    }
-                    else
-                        DisplayMsg("Saved Failed");
                 }
                 else
                 {
